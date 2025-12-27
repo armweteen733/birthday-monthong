@@ -1,0 +1,1318 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin:0;
+  font-family:'Mali', cursive;
+  background:linear-gradient(45deg, #f6b7c9, #f9c6d8, #fbe0ea, #ffd4e5);
+  background-size:400% 400%;
+  animation: gradientShift 15s ease infinite;
+  overflow:hidden;
+  color:#7a2e4a;
+  cursor: pointer;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.wrapper {
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* Click hint */
+.click-hint {
+  position:fixed;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+  color:#c94a7a;
+  font-size:0.95em;
+  opacity:0.7;
+  z-index:5;
+  animation: bounce 2s infinite;
+  display:none;
+}
+
+.click-hint.show {
+  display:block;
+}
+
+@keyframes bounce {
+  0%, 100% { transform:translateX(-50%) translateY(0); }
+  50% { transform:translateX(-50%) translateY(-10px); }
+}
+
+/* Heart animation on click */
+.heart-burst {
+  position:fixed;
+  font-size:1.5em;
+  pointer-events:none;
+  z-index:100;
+  animation: burstUp 1.5s ease-out forwards;
+}
+
+@keyframes burstUp {
+  0% {
+    opacity:1;
+    transform: translateY(0) scale(0.5) rotate(0deg);
+  }
+  100% {
+    opacity:0;
+    transform: translateY(-150px) scale(1.5) rotate(360deg);
+  }
+}
+
+/* Welcome Screen */
+#welcomeScreen {
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:11;
+  opacity:1;
+  transition: opacity 0.5s ease;
+  padding:40px;
+}
+
+#welcomeScreen.hide {
+  opacity:0;
+  pointer-events:none;
+}
+
+.welcome-content {
+  text-align:center;
+  max-width:500px;
+}
+
+.welcome-title {
+  font-size:3em;
+  color:#c94a7a;
+  margin-bottom:20px;
+  animation: fadeIn 1s ease;
+}
+
+.welcome-message {
+  font-size:1.3em;
+  color:#7a2e4a;
+  margin-bottom:15px;
+  line-height:1.8;
+}
+
+.mic-notice {
+  font-size:1.1em;
+  color:#ff7fa8;
+  margin:20px 0;
+  padding:15px;
+  background:rgba(255,255,255,0.5);
+  border-radius:15px;
+}
+
+.start-btn {
+  margin-top:30px;
+  padding:20px 50px;
+  background:#ff7fa8;
+  color:white;
+  border:none;
+  border-radius:40px;
+  font-family:'Mali', cursive;
+  font-size:1.3em;
+  cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.3);
+  transition: all 0.3s;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.start-btn:hover {
+  background:#ff5a8c;
+  transform: translateY(-5px) scale(1.05);
+  box-shadow:0 8px 25px rgba(0,0,0,.4);
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(-20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* Countdown Screen */
+#countdown {
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:10;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 0.5s ease;
+}
+
+#countdown.show {
+  opacity:1;
+  pointer-events:auto;
+}
+
+#countdown.hide {
+  opacity:0;
+  pointer-events:none;
+}
+
+#countdown .number {
+  font-size:8em;
+  font-weight:600;
+  color:#c94a7a;
+  text-shadow:0 4px 20px rgba(201,74,122,0.5);
+  animation: pop 0.6s ease;
+}
+
+#countdown .message {
+  font-size:1.8em;
+  margin-top:20px;
+  opacity:0.8;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.3);
+    opacity:0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity:1;
+  }
+}
+
+/* Birthday Cake Screen */
+#cakeScreen {
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:9;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 1s ease;
+}
+
+#cakeScreen.show {
+  opacity:1;
+  pointer-events:auto;
+}
+
+.cake-container {
+  text-align:center;
+}
+
+.cake-title {
+  font-size:2.5em;
+  color:#c94a7a;
+  margin-bottom:20px;
+  animation: fadeIn 1s ease;
+}
+
+.cake-wrapper {
+  position:relative;
+  width:300px;
+  height:350px;
+  margin:0 auto 30px;
+}
+
+.cake {
+  width:100%;
+  height:100%;
+  position:relative;
+  animation: cakeBounce 2s ease-in-out infinite;
+}
+
+@keyframes cakeBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.cake-layer {
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  border-radius:15px;
+}
+
+.layer1 {
+  width:250px;
+  height:80px;
+  background:linear-gradient(135deg, #ff9eb8, #ffc4d6);
+  bottom:0;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+.layer2 {
+  width:200px;
+  height:70px;
+  background:linear-gradient(135deg, #ffb3cc, #ffd4e5);
+  bottom:75px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+.layer3 {
+  width:150px;
+  height:60px;
+  background:linear-gradient(135deg, #ffc4d6, #ffe0ea);
+  bottom:140px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+.frosting {
+  position:absolute;
+  width:100%;
+  height:10px;
+  background:#fff;
+  top:-5px;
+  border-radius:10px;
+}
+
+.candle {
+  position:absolute;
+  width:8px;
+  height:50px;
+  background:linear-gradient(180deg, #ff7fa8, #ffa8c5);
+  border-radius:4px;
+  top:-50px;
+  left:50%;
+  transform:translateX(-50%);
+  box-shadow:0 2px 5px rgba(0,0,0,0.2);
+}
+
+.flame {
+  position:absolute;
+  top:-25px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:2em;
+  animation: flicker 0.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px #ff6b35);
+}
+
+.flame.out {
+  animation:none;
+  opacity:0;
+}
+
+@keyframes flicker {
+  0%, 100% { transform:translateX(-50%) scale(1); opacity:1; }
+  50% { transform:translateX(-50%) scale(1.1); opacity:0.8; }
+}
+
+.cake-instruction {
+  font-size:1.4em;
+  color:#c94a7a;
+  margin-top:20px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity:1; }
+  50% { opacity:0.6; }
+}
+
+.wish-text {
+  font-size:1.6em;
+  color:#c94a7a;
+  margin-top:30px;
+  opacity:0;
+  transition: opacity 1s ease;
+}
+
+.wish-text.show {
+  opacity:1;
+}
+
+.continue-btn {
+  margin-top:30px;
+  padding:15px 40px;
+  background:#ff7fa8;
+  color:white;
+  border:none;
+  border-radius:30px;
+  font-family:'Mali', cursive;
+  font-size:1.1em;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(0,0,0,.3);
+  transition: all 0.3s;
+  opacity:0;
+  pointer-events:none;
+}
+
+.continue-btn.show {
+  opacity:1;
+  pointer-events:auto;
+}
+
+.continue-btn:hover {
+  background:#ff5a8c;
+  transform: translateY(-3px);
+  box-shadow:0 7px 20px rgba(0,0,0,.4);
+}
+
+.container {
+  text-align:center;
+  padding:40px;
+  position:relative;
+  z-index:2;
+  opacity:0;
+  transition: opacity 1s ease;
+  max-width:900px;
+  width:100%;
+}
+
+.container.show {
+  opacity:1;
+}
+
+.container.hide {
+  opacity:0;
+  pointer-events:none;
+}
+
+h1 {
+  color:#c94a7a;
+  font-size:2.6em;
+}
+
+p {
+  font-size:1.15em;
+  line-height:1.7;
+  transition: opacity 0.8s ease;
+}
+
+p.hide {
+  opacity:0;
+}
+
+/* Progress Bar */
+.progress-container {
+  width:100%;
+  max-width:500px;
+  height:8px;
+  background:rgba(255,255,255,0.4);
+  border-radius:10px;
+  margin:20px auto;
+  overflow:hidden;
+  display:none;
+}
+
+.progress-container.show {
+  display:block;
+}
+
+.progress-bar {
+  height:100%;
+  background:linear-gradient(90deg, #ff7fa8, #ffa8c5);
+  width:0%;
+  transition: width 0.5s ease;
+  border-radius:10px;
+}
+
+/* Slideshow */
+.slideshow-wrapper {
+  position:relative;
+  margin:35px auto;
+}
+
+.slide {
+  width:500px;
+  height:500px;
+  margin:0 auto;
+  border-radius:32px;
+  overflow:hidden;
+  box-shadow:0 20px 45px rgba(0,0,0,.25);
+  display:none;
+  opacity:0;
+  transition: opacity 1.2s ease;
+  position:relative;
+  border:8px solid white;
+}
+
+.slide.show {
+  display:block;
+  opacity:1;
+}
+
+.slide img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  animation: zoomIn 4s ease-in-out;
+}
+
+.slide::after {
+  content: attr(data-caption);
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  padding:15px;
+  text-align:center;
+  font-size:0.95em;
+  color:#7a2e4a;
+  font-weight:400;
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.message-slide {
+  width:500px;
+  height:500px;
+  margin:0 auto;
+  border-radius:32px;
+  box-shadow:0 20px 45px rgba(0,0,0,.25);
+  background:linear-gradient(135deg, #ff9eb8, #ffc4d6);
+  display:none;
+  opacity:0;
+  transition: opacity 1.2s ease;
+  justify-content:center;
+  align-items:center;
+  font-size:2.2em;
+  color:#fff;
+  text-shadow:2px 2px 8px rgba(0,0,0,.2);
+  animation: pulse 2.5s ease-in-out;
+  padding:40px;
+  border:8px solid white;
+}
+
+.message-slide.show {
+  display:flex;
+  opacity:1;
+}
+
+.message-slide::after {
+  content:'|';
+  animation: blink 0.7s infinite;
+  margin-left:4px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity:1; }
+  50% { opacity:0; }
+}
+
+/* Music Controls */
+.music-controls {
+  display:none;
+  justify-content:center;
+  gap:15px;
+  margin:20px auto;
+  align-items:center;
+}
+
+.music-controls.show {
+  display:flex;
+}
+
+.control-btn {
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:#ff7fa8;
+  border:none;
+  color:white;
+  font-size:1.3em;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,.2);
+  transition: all 0.3s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.control-btn:hover {
+  transform: scale(1.1);
+  background:#ff5a8c;
+}
+
+.control-btn:active {
+  transform: scale(0.95);
+}
+
+.music-time {
+  font-size:0.9em;
+  color:#c94a7a;
+  min-width:80px;
+  text-align:center;
+}
+
+.envelope-wrapper {
+  display:flex;
+  justify-content:center;
+  margin-top:25px;
+  transition: all 0.8s ease;
+}
+
+.fade-out {
+  opacity:0;
+  transform:scale(0.6);
+}
+
+.hide {
+  display:none !important;
+}
+
+.envelope-btn {
+  width:90px;
+  height:65px;
+  background:#ff7fa8;
+  border-radius:12px;
+  position:relative;
+  cursor:pointer;
+  box-shadow:0 6px 15px rgba(0,0,0,.25);
+  transition: transform 0.2s;
+}
+
+.envelope-btn:hover {
+  transform: scale(1.1);
+}
+
+.envelope-btn::before {
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  margin:auto;
+  width:0;
+  height:0;
+  border-left:45px solid transparent;
+  border-right:45px solid transparent;
+  border-top:32px solid #ffb3cc;
+}
+
+.envelope-btn::after {
+  content:'❤';
+  position:absolute;
+  bottom:6px;
+  left:0;
+  right:0;
+  margin:auto;
+  font-size:1.4em;
+  color:white;
+}
+
+.envelope-text {
+  margin-top:8px;
+  font-size:0.95em;
+  opacity:0.8;
+  transition: all 0.8s ease;
+}
+
+.snow {
+  position:fixed;
+  top:-20px;
+  color:white;
+  text-shadow:0 0 6px rgba(255,255,255,.9);
+  animation: fall linear infinite;
+  z-index:1;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(120vh);
+  }
+}
+
+/* Letter Screen */
+#letterScreen {
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 2s ease;
+  z-index:11;
+  background:linear-gradient(135deg, #f6b7c9, #fbe0ea);
+  padding:40px;
+}
+
+#letterScreen.show {
+  opacity:1;
+  pointer-events:auto;
+}
+
+.letter-container {
+  max-width:600px;
+  width:100%;
+  background:white;
+  padding:50px;
+  border-radius:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+  position:relative;
+}
+
+.letter-title {
+  font-size:2em;
+  color:#c94a7a;
+  margin-bottom:30px;
+  text-align:center;
+}
+
+.letter-content {
+  font-size:1.15em;
+  line-height:2;
+  color:#7a2e4a;
+  white-space:pre-wrap;
+  min-height:400px;
+}
+
+.letter-content::after {
+  content:'|';
+  animation: blink 0.7s infinite;
+  margin-left:2px;
+}
+
+#ending {
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 2s ease;
+  z-index:3;
+}
+
+#ending.show {
+  opacity:1;
+}
+
+#ending .heart {
+  font-size:4em;
+  margin-bottom:20px;
+}
+
+#ending .wish {
+  font-size:1.3em;
+  opacity:0.9;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgm">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Click hint -->
+<div class="click-hint" id="clickHint">💕 คลิกที่หน้าจอสิ 💕</div>
+
+<!-- Welcome Screen -->
+<div id="welcomeScreen">
+  <div class="welcome-content">
+    <div class="welcome-title">🎉 ยินดีต้อนรับ 🎉</div>
+    <div class="welcome-message">
+      สำหรับ Monthong Gray
+    </div>
+    <div class="mic-notice">
+      เพื่อให้คุณเป่าเทียนวันเกิดได้จริงๆ!<br>
+      ผมจึงทำสิ่งนี้มาให้
+    </div>
+    <button class="start-btn" onclick="startExperience()">
+      เริ่มเลย! 🎂
+    </button>
+  </div>
+</div>
+
+<!-- Countdown Screen -->
+<div id="countdown">
+  <div class="number" id="countNumber">3</div>
+  <div class="message">เตรียมพร้อม...</div>
+</div>
+
+<!-- Birthday Cake Screen -->
+<div id="cakeScreen">
+  <div class="cake-container">
+    <div class="cake-title">🎂 สุขสันต์วันเกิด! 🎂</div>
+    
+    <div class="cake-wrapper">
+      <div class="cake">
+        <div class="cake-layer layer3">
+          <div class="frosting"></div>
+          <div class="candle">
+            <div class="flame" id="flame">🔥</div>
+          </div>
+        </div>
+        <div class="cake-layer layer2">
+          <div class="frosting"></div>
+        </div>
+        <div class="cake-layer layer1">
+          <div class="frosting"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cake-instruction" id="cakeInstruction">
+      ขอพรสิ่งที่อยากได้ในใจ...<br>
+      แล้วเป่าเทียนด้วยไมค์ 🎤
+    </div>
+    
+    <div class="wish-text" id="wishText">
+      ขอให้ทุกอย่างเป็นจริง! ✨
+    </div>
+    
+    <button class="continue-btn" id="continueBtn" onclick="continueToGift()">
+      เปิดของขวัญ 🎁
+    </button>
+  </div>
+</div>
+
+<div class="wrapper">
+  <div class="container" id="mainContent">
+
+    <h1>สุขสันต์วันเกิดนะ Monthong Gray 🎂</h1>
+
+    <p>
+      ❄️❤️❄️❤️❄️<br>
+      ขอให้วันนี้เป็นวันที่ดีสำหรับเธอ ขอให้มีความสุขมากๆนะครับ
+    </p>
+
+    <div class="progress-container" id="progressContainer">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="slideshow-wrapper">
+      <div class="slide" id="imageSlider" data-caption="">
+        <img id="slideImage">
+      </div>
+
+      <div class="message-slide" id="messageSlider"></div>
+    </div>
+
+    <div class="music-controls" id="musicControls">
+      <button class="control-btn" id="prevBtn" title="รูปก่อนหน้า">⏮</button>
+      <button class="control-btn" id="playPauseBtn" title="เล่น/หยุด">⏸</button>
+      <button class="control-btn" id="nextBtn" title="รูปถัดไป">⏭</button>
+      <div class="music-time" id="musicTime">0:00 / 0:00</div>
+    </div>
+
+    <div class="envelope-wrapper" id="envelope">
+      <div class="envelope-btn" onclick="startSurprise()"></div>
+    </div>
+
+    <div class="envelope-text" id="envelopeText">คลิกเปิดจดหมาย</div>
+
+  </div>
+</div>
+
+<!-- Letter Screen -->
+<div id="letterScreen">
+  <div class="letter-container">
+    <div class="letter-title">💌 จดหมายถึงเธอ 💌</div>
+    <div class="letter-content" id="letterContent"></div>
+  </div>
+</div>
+
+<div id="ending">
+  <div class="heart">🤍</div>
+  <div class="wish">
+    ขอให้ปีนี้&nbsp;ใจดีกับเธอมากๆนะ.... <br>
+    ขอบคุณที่เข้ามา ❤️
+  </div>
+</div>
+
+<script>
+const images = [
+"photos/01.png",
+"photos/02.png",
+"photos/03.png",
+"photos/04.png",
+"photos/05.png",
+"photos/06.png",
+"photos/07.png",
+"photos/08.png",
+"photos/09.png",
+"photos/10.png",
+"photos/11.png",
+"photos/12.png",
+"photos/13.png",
+"photos/14.png",
+"photos/15.png",
+"photos/16.png",
+"photos/17.png",
+"photos/18.png",
+];
+
+const messages = [
+"ขอให้มีความสุขมากๆนะ 😊",
+"ขอให้ปีนี้เป็นปีที่ดีที่สุด ✨",
+"อยากให้ยิ้มแบบนี้ตลอดไป 😄",
+"ขอให้โชคดีในทุกๆเรื่อง 🍀",
+"ขอให้ทุกอย่างราบรื่น 🌟",
+"สนุกกับวันพิเศษนี้นะ 🎉",
+"ขอให้มีแต่สิ่งดีๆ 💫",
+"ดีใจที่ได้รู้จัก 🌸",
+"ขอให้ฝันเป็นจริง 🎈",
+"ขอให้ทุกวันมีความสุข ☀️",
+"ขอให้ได้ทำสิ่งที่ชอบ 🎨",
+"ขอให้มีพลังดีๆ 💪",
+"ขอให้อายุยืนยาว 🎂",
+"ขอให้ได้เจอแต่คนดีๆ 👥",
+"ขอให้มีสุขภาพแข็งแรง 🏃",
+"ขอให้ประสบความสำเร็จ 🏆",
+"ขอให้โชคดีไปตลอด 🌈",
+"ขอให้สดใสทุกวัน 🌞",
+"ขอให้เต็มไปด้วยรอยยิ้ม 😁",
+"ขอให้วันนี้น่าจดจำ 📸",
+];
+
+const captions = [
+  "ช่วงเวลาพิเศษ",
+  "ความทรงจำดีๆ",
+  "วันที่น่าจดจำ",
+  "รอยยิ้มสวยๆ",
+  "ขณะแห่งความสุข"
+];
+
+const letter = `ถึง Monthong Gray
+
+วันนี้เป็นวันพิเศษของเธอ
+ผมอยากให้เธอรู้ว่า...
+
+แม้เราจะคุยกันได้ไม่นาน
+แต่ผมรู้สึกว่าเธอเป็นคนพิเศษ
+
+ขอบคุณที่ให้โอกาสผมได้รู้จักเธอ
+ขอบคุณทุกๆ การสนทนา
+ทุกๆ รอยยิ้มที่เธอมอบให้
+
+ผมหวังว่าปีนี้จะเป็นปีที่ดีที่สุดสำหรับเธอ
+ขอให้ได้พบแต่สิ่งดีๆ
+ขอให้ได้ทำในสิ่งที่รัก
+และขอให้มีความสุขมากๆ
+
+สุขสันต์วันเกิดนะครับ 🎂
+
+Kiaw Best
+`;
+
+let imageIndex = 0;
+let messageIndex = 0;
+let slideInterval = null;
+let showingImage = true;
+let typingInterval = null;
+let isPlaying = true;
+let totalSlides = 0;
+let currentSlide = 0;
+let clickEnabled = false;
+let micStream = null;
+let audioContext = null;
+let analyser = null;
+let candleBlown = false;
+
+const img = document.getElementById("slideImage");
+const imageSlider = document.getElementById("imageSlider");
+const messageSlider = document.getElementById("messageSlider");
+const music = document.getElementById("bgm");
+const mainContent = document.getElementById("mainContent");
+const playPauseBtn = document.getElementById("playPauseBtn");
+const progressBar = document.getElementById("progressBar");
+const progressContainer = document.getElementById("progressContainer");
+const musicTime = document.getElementById("musicTime");
+const clickHint = document.getElementById("clickHint");
+const letterScreen = document.getElementById("letterScreen");
+const letterContent = document.getElementById("letterContent");
+const cakeScreen = document.getElementById("cakeScreen");
+const flame = document.getElementById("flame");
+const cakeInstruction = document.getElementById("cakeInstruction");
+const wishText = document.getElementById("wishText");
+const continueBtn = document.getElementById("continueBtn");
+
+// Heart burst on click
+document.body.addEventListener("click", (e) => {
+  if (!clickEnabled) return;
+  
+  const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝'];
+  const heart = document.createElement("div");
+  heart.className = "heart-burst";
+  heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+  heart.style.left = e.clientX + "px";
+  heart.style.top = e.clientY + "px";
+  document.body.appendChild(heart);
+  
+  setTimeout(() => heart.remove(), 1500);
+});
+
+// Start experience - request microphone first
+async function startExperience() {
+  const welcomeScreen = document.getElementById("welcomeScreen");
+  
+  // Request microphone permission
+  try {
+    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    console.log("Microphone permission granted!");
+    // Stop for now, will restart when showing cake
+    if (micStream) {
+      micStream.getTracks().forEach(track => track.stop());
+      micStream = null;
+    }
+  } catch (err) {
+    console.log("Microphone denied or not available, will use click instead");
+  }
+  
+  // Hide welcome screen
+  welcomeScreen.classList.add("hide");
+  
+  // Start countdown after a delay
+  setTimeout(() => {
+    document.getElementById("countdown").classList.add("show");
+    startCountdown();
+  }, 500);
+}
+
+// Countdown function
+function startCountdown() {
+  const countdownDiv = document.getElementById("countdown");
+  const countNumber = document.getElementById("countNumber");
+  let count = 3;
+
+  const countInterval = setInterval(() => {
+    count--;
+    if (count > 0) {
+      countNumber.textContent = count;
+      countNumber.style.animation = "none";
+      setTimeout(() => {
+        countNumber.style.animation = "pop 0.6s ease";
+      }, 10);
+    } else if (count === 0) {
+      countNumber.textContent = "🎉";
+      countNumber.style.fontSize = "6em";
+      setTimeout(() => {
+        countdownDiv.classList.add("hide");
+        showCake();
+      }, 800);
+      clearInterval(countInterval);
+    }
+  }, 1000);
+}
+
+// Show birthday cake
+function showCake() {
+  cakeScreen.classList.add("show");
+  setupMicrophone();
+}
+
+// Setup microphone for blowing
+async function setupMicrophone() {
+  try {
+    // Request microphone again (should auto-allow since already granted)
+    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    const microphone = audioContext.createMediaStreamSource(micStream);
+    microphone.connect(analyser);
+    analyser.fftSize = 256;
+    
+    detectBlow();
+  } catch (err) {
+    console.log("Microphone not available, using click instead");
+    cakeInstruction.innerHTML = "ขอพรสิ่งที่อยากได้ในใจ...<br>แล้วคลิกที่เทียน 🕯️";
+    flame.style.cursor = "pointer";
+    flame.addEventListener("click", blowCandle);
+  }
+}
+
+// Detect blowing sound
+function detectBlow() {
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+  
+  function check() {
+    if (candleBlown) return;
+    
+    analyser.getByteFrequencyData(dataArray);
+    let sum = 0;
+    for (let i = 0; i < bufferLength; i++) {
+      sum += dataArray[i];
+    }
+    const average = sum / bufferLength;
+    
+    // ต้องเป่าแรงๆ ค่ามากกว่า 70 ถึงจะดับ
+    if (average > 100) {
+      blowCandle();
+    } else {
+      requestAnimationFrame(check);
+    }
+  }
+  
+  check();
+}
+
+// Blow out candle
+function blowCandle() {
+  if (candleBlown) return;
+  candleBlown = true;
+  
+  flame.classList.add("out");
+  cakeInstruction.style.opacity = "0";
+  
+  setTimeout(() => {
+    wishText.classList.add("show");
+    continueBtn.classList.add("show");
+  }, 800);
+  
+  if (micStream) {
+    micStream.getTracks().forEach(track => track.stop());
+  }
+}
+
+// Continue to gift
+function continueToGift() {
+  cakeScreen.classList.remove("show");
+  setTimeout(() => {
+    mainContent.classList.add("show");
+  }, 500);
+}
+
+// Typing effect for messages
+function typeMessage(text, element) {
+  let index = 0;
+  element.textContent = "";
+  
+  if (typingInterval) clearInterval(typingInterval);
+  
+  typingInterval = setInterval(() => {
+    if (index < text.length) {
+      element.textContent += text[index];
+      index++;
+    } else {
+      clearInterval(typingInterval);
+    }
+  }, 80);
+}
+
+// Type letter
+function typeLetter() {
+  let index = 0;
+  letterContent.textContent = "";
+  
+  const typeInterval = setInterval(() => {
+    if (index < letter.length) {
+      letterContent.textContent += letter[index];
+      index++;
+    } else {
+      clearInterval(typeInterval);
+      letterContent.style.removeProperty('::after');
+    }
+  }, 50);
+}
+
+function showImage() {
+  imageSlider.classList.remove("show");
+  messageSlider.classList.remove("show");
+  
+  setTimeout(() => {
+    img.src = images[imageIndex];
+    const captionIndex = imageIndex % captions.length;
+    imageSlider.setAttribute("data-caption", captions[captionIndex]);
+    imageSlider.classList.add("show");
+    imageIndex = (imageIndex + 1) % images.length;
+    currentSlide++;
+    updateProgress();
+  }, 300);
+}
+
+function showMessage() {
+  imageSlider.classList.remove("show");
+  messageSlider.classList.remove("show");
+  
+  setTimeout(() => {
+    const currentMessage = messages[messageIndex];
+    typeMessage(currentMessage, messageSlider);
+    messageSlider.classList.add("show");
+    messageIndex = (messageIndex + 1) % messages.length;
+    currentSlide++;
+    updateProgress();
+  }, 300);
+}
+
+function toggleSlide() {
+  if (showingImage) {
+    showImage();
+  } else {
+    showMessage();
+  }
+  showingImage = !showingImage;
+}
+
+function nextSlide() {
+  clearInterval(slideInterval);
+  toggleSlide();
+  if (isPlaying) {
+    slideInterval = setInterval(toggleSlide, 4000);
+  }
+}
+
+function prevSlide() {
+  clearInterval(slideInterval);
+  if (showingImage) {
+    imageIndex = (imageIndex - 2 + images.length) % images.length;
+  } else {
+    messageIndex = (messageIndex - 2 + messages.length) % messages.length;
+  }
+  showingImage = !showingImage;
+  toggleSlide();
+  if (isPlaying) {
+    slideInterval = setInterval(toggleSlide, 4000);
+  }
+}
+
+function togglePlayPause() {
+  if (isPlaying) {
+    music.pause();
+    clearInterval(slideInterval);
+    playPauseBtn.textContent = "▶";
+    isPlaying = false;
+  } else {
+    music.play();
+    slideInterval = setInterval(toggleSlide, 4000);
+    playPauseBtn.textContent = "⏸";
+    isPlaying = true;
+  }
+}
+
+function updateProgress() {
+  if (music.duration) {
+    const progress = (music.currentTime / music.duration) * 100;
+    progressBar.style.width = progress + "%";
+  }
+}
+
+function updateMusicTime() {
+  const current = formatTime(music.currentTime);
+  const duration = formatTime(music.duration);
+  musicTime.textContent = `${current} / ${duration}`;
+}
+
+function formatTime(seconds) {
+  if (isNaN(seconds)) return "0:00";
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+function startSurprise() {
+  const env = document.getElementById("envelope");
+  const text = document.getElementById("envelopeText");
+  const subtitle = document.querySelector("p");
+
+  env.classList.add("fade-out");
+  text.classList.add("fade-out");
+  subtitle.classList.add("hide");
+
+  setTimeout(() => {
+    env.classList.add("hide");
+    text.classList.add("hide");
+  }, 800);
+
+  document.getElementById("musicControls").classList.add("show");
+  progressContainer.classList.add("show");
+  clickHint.classList.add("show");
+  clickEnabled = true;
+
+  totalSlides = (images.length + messages.length) * 2;
+
+  music.volume = 0.05;
+  music.play();
+
+  let vol = 0.05;
+  const fade = setInterval(() => {
+    if (vol < 0.25) {
+      vol += 0.004;
+      music.volume = vol;
+    } else {
+      clearInterval(fade);
+    }
+  }, 220);
+
+  showImage();
+  slideInterval = setInterval(toggleSlide, 4000);
+
+  startSnow();
+  
+  setInterval(updateProgress, 500);
+  setInterval(updateMusicTime, 1000);
+  
+  music.addEventListener("ended", showLetter);
+}
+
+function showLetter() {
+  clearInterval(slideInterval);
+  if (typingInterval) clearInterval(typingInterval);
+  clickEnabled = false;
+  clickHint.classList.remove("show");
+  mainContent.classList.add("hide");
+
+  setTimeout(() => {
+    letterScreen.classList.add("show");
+    typeLetter();
+  }, 1000);
+  
+  setTimeout(() => {
+    letterScreen.classList.remove("show");
+    setTimeout(() => {
+      document.getElementById("ending").classList.add("show");
+    }, 2000);
+  }, letter.length * 50 + 5000);
+}
+
+function startSnow() {
+  for (let i = 0; i < 55; i++) {
+    let snow = document.createElement("div");
+    snow.className = "snow";
+    snow.innerHTML = "❄";
+    snow.style.left = Math.random() * 100 + "vw";
+    snow.style.animationDuration = (6 + Math.random() * 6) + "s";
+    snow.style.fontSize = (12 + Math.random() * 14) + "px";
+    snow.style.opacity = 0.6 + Math.random() * 0.4;
+    document.body.appendChild(snow);
+  }
+}
+
+document.getElementById("prevBtn").addEventListener("click", prevSlide);
+document.getElementById("nextBtn").addEventListener("click", nextSlide);
+playPauseBtn.addEventListener("click", togglePlayPause);
+</script>
+
+</body>
+</html>
